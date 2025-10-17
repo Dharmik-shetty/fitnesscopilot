@@ -1,0 +1,320 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Fitness Copilot — Your AI Fitness Companion</title>
+  <meta name="description" content="Personalized workouts, smart progressions, and nutrition guidance — all in one app." />
+  <meta property="og:title" content="Fitness Copilot" />
+  <meta property="og:description" content="Personalized workouts, smart progressions, and nutrition guidance — all in one app." />
+  <meta property="og:type" content="website" />
+  <meta name="theme-color" content="#0b1020" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    :root{
+      --bg1:#0b1020; --bg2:#0e1a36; --card:#0f1730dd; --cardBr:#2845ff33; --cardGlow:#2845ff44;
+      --text:#e9eefb; --muted:#a5b6d6; --accent:#2b4cff; --accent-2:#8fd1ff; --ok:#39d98a;
+      --gold:#F4D35E; --silver:#C0C4CC; --bronze:#CD7F32;
+      --ring: conic-gradient(from 220deg at 50% 50%, #6ee7ff, #2b4cff, #8fd1ff, #6ee7ff);
+    }
+    *{box-sizing:border-box}
+    html,body{height:100%}
+    body{
+      margin:0; font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,Arial,sans-serif;
+      color:var(--text);
+      background:
+        radial-gradient(1400px 800px at 0% -10%, #1b2b66 0%, transparent 60%),
+        radial-gradient(1200px 700px at 110% 0%, #16345a 0%, transparent 60%),
+        linear-gradient(180deg, var(--bg1), var(--bg2));
+    }
+    .container{max-width:1120px; margin:0 auto; padding:20px}
+    /* NAV */
+    nav{position:sticky; top:0; z-index:10; backdrop-filter:saturate(1.1) blur(8px); background:#0b1020cc}
+    .nav-inner{display:flex; align-items:center; justify-content:space-between; padding:14px 20px}
+    .brand{display:flex; align-items:center; gap:12px; text-decoration:none; color:var(--text)}
+    .logo{
+      width:40px; height:40px; border-radius:10px; display:grid; place-items:center; overflow:hidden;
+      background: radial-gradient(120% 120% at -10% -10%, #2b4cff, transparent),
+                  radial-gradient(120% 120% at 120% 0%, #6ee7ff, transparent), #0e1730;
+      box-shadow: 0 8px 24px #2b4cff33 inset, 0 0 0 1px #2b4cff66;
+    }
+    .brand h1{font-size:18px; margin:0; letter-spacing:.2px}
+    .menu{display:flex; gap:18px}
+    .menu a{color:var(--muted); text-decoration:none; font-weight:600; font-size:14px}
+    .menu a:hover{color:var(--accent-2)}
+    /* HERO */
+    .hero{padding:44px 20px 24px}
+    .hero-inner{
+      display:grid; gap:26px; grid-template-columns:1.15fr .85fr; align-items:center;
+    }
+    @media (max-width:960px){ .hero-inner{grid-template-columns:1fr} }
+    .title{font-weight:800; font-size:clamp(28px,5vw,44px); margin:0}
+    .subtitle{color:var(--muted); font-size:16px; margin-top:10px}
+    .cta{display:flex; gap:12px; flex-wrap:wrap; margin-top:18px}
+    .btn{
+      background:linear-gradient(180deg,#2b4cff,#1f40ff);
+      color:#fff; border:none; border-radius:12px; padding:14px 18px; font-weight:800;
+      display:inline-flex; align-items:center; gap:10px; text-decoration:none; box-shadow:0 10px 30px #2845ff44;
+      transition:transform .08s ease, filter .2s ease;
+    }
+    .btn:hover{transform:translateY(-1px); filter:saturate(1.1)}
+    .btn.secondary{
+      background:linear-gradient(180deg,#173269,#132a57);
+    }
+    .device{
+      position:relative; border-radius:22px; border:1px solid #2b4cff33; overflow:hidden;
+      height:520px; min-height:360px;
+      background: radial-gradient(120% 80% at 20% 0%, #1f2d66 0%, transparent 50%), linear-gradient(180deg, #0d152f, #081129);
+      box-shadow: 0 18px 50px #0008, inset 0 0 0 1px #ffffff0a;
+    }
+    .ring{
+      position:absolute; inset:-2px; border-radius:24px; padding:1px; pointer-events:none;
+      background:linear-gradient(#ffffff00,#ffffff00), var(--ring);
+      -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+      -webkit-mask-composite:xor; mask-composite:exclude; opacity:.18; animation:spin 14s linear infinite;
+    }
+    @keyframes spin{to{transform:rotate(360deg)}}
+    /* FEATURES */
+    .section{padding:34px 20px}
+    .section h2{font-size:24px; margin:0 0 8px}
+    .grid{display:grid; gap:16px; grid-template-columns:repeat(3,1fr)}
+    @media (max-width:900px){ .grid{grid-template-columns:1fr} }
+    .card{
+      background:var(--card); border:1px solid var(--cardBr); border-radius:16px; padding:18px;
+      box-shadow: 0 16px 46px var(--cardGlow), inset 0 0 0 1px #ffffff06;
+    }
+    .card h3{margin:0 0 6px; font-size:18px}
+    .card p{margin:0; color:var(--muted); font-size:14px; line-height:1.5}
+    .badge{
+      display:inline-flex; gap:8px; align-items:center; font-size:12px;
+      background:#13224a; color:#dfe7ff; border:1px solid #2b4cff55; border-radius:999px; padding:8px 10px; margin-bottom:10px;
+      text-transform:uppercase; letter-spacing:.6px;
+    }
+    .featureList{display:grid; gap:12px; grid-template-columns:repeat(2,1fr)}
+    @media (max-width:900px){ .featureList{grid-template-columns:1fr} }
+    .tile{
+      background:linear-gradient(180deg,#0f1c3b,#0b1430); border:1px solid #2845ff22; border-radius:14px; padding:14px;
+    }
+    .tile strong{display:block; margin-bottom:6px}
+    /* PLANS */
+    .plans{display:grid; gap:18px; grid-template-columns:repeat(3,1fr)}
+    @media (max-width:900px){ .plans{grid-template-columns:1fr} }
+    .plan{
+      position:relative; border-radius:16px; padding:18px; background:#0f1730ee; border:1px solid #2b4cff22;
+      box-shadow: 0 10px 34px #0006, inset 0 0 0 1px #ffffff05;
+    }
+    .plan header{display:flex; align-items:center; justify-content:space-between; margin-bottom:10px}
+    .tag{font-size:12px; color:#a7b9da; background:#14234a; border:1px solid #2b4cff55; padding:6px 10px; border-radius:999px}
+    .price{font-size:28px; font-weight:800}
+    .strike{margin-left:8px; color:#93a6cc; text-decoration:line-through; font-weight:600; font-size:14px; opacity:.85}
+    .per{color:#8aa4d8; font-size:13px}
+    .plan ul{margin:12px 0 0; padding:0 0 0 18px; color:#b7c6e1; font-size:14px}
+    .plan .cta{margin-top:14px}
+    .gold{border-color:#F4D35E66; box-shadow:0 18px 50px #F4D35E22}
+    .silver{border-color:#C0C4CC66; box-shadow:0 18px 50px #C0C4CC22}
+    .bronze{border-color:#CD7F3266; box-shadow:0 18px 50px #CD7F3222}
+    /* TESTIMONIALS */
+    .quotes{display:grid; gap:16px; grid-template-columns:repeat(3,1fr)}
+    @media (max-width:900px){ .quotes{grid-template-columns:1fr} }
+    .quote{
+      position:relative; padding:18px; border-radius:16px; background:#0f1730; border:1px solid #2845ff22;
+      color:#cdd8ef; font-size:14px; line-height:1.6;
+    }
+    .quote::before{
+      content:"“"; position:absolute; top:-18px; left:10px; font-size:64px; color:#2b4cff22;
+    }
+    /* FOOTER */
+    footer{padding:24px 20px; color:#89a0c7; text-align:center; font-size:13px}
+    footer a{color:#8fd1ff; text-decoration:none}
+    footer a:hover{text-decoration:underline}
+  </style>
+</head>
+<body>
+  <!-- NAV -->
+  <nav>
+    <div class="container nav-inner">
+      <a class="brand" href="#top">
+        <div class="logo" aria-hidden="true">
+          <svg viewBox="0 0 24 24" width="22" height="22" fill="none" style="color:#e9eefb">
+            <path d="M7 3h10v3a4 4 0 0 1-4 4h-2a4 4 0 0 1-4-4V3Z" stroke="currentColor" stroke-width="1.6"/>
+            <path d="M5 6h2a4 4 0 0 1-4 4 3 3 0 0 1 2-4Zm14 0h-2a4 4 0 0 0 4 4 3 3 0 0 0-2-4Z" fill="currentColor"/>
+            <path d="M9 14h6m-7 4h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/>
+          </svg>
+        </div>
+        <h1>Fitness Copilot</h1>
+      </a>
+      <div class="menu">
+        <a href="#features">Features</a>
+        <a href="#plans">Plans</a>
+        <a href="#faq">FAQ</a>
+      </div>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <main id="top" class="container hero">
+    <div class="hero-inner">
+      <div>
+        <h2 class="title">Train smarter with your AI fitness companion.</h2>
+        <p class="subtitle">Personalized programs, safe progressions, and clear guidance — adapted to your schedule, experience, and equipment.</p>
+        <div class="cta">
+          <a class="btn" href="https://drive.google.com/file/d/1mBEIhBb5mvNZ4Gn7ZBRV-6IVx-y7mRKM/view?usp=sharing" target="_blank" rel="noopener">
+            <svg viewBox="0 0 24 24" width="18" height="18" fill="none">
+              <path d="M12 3v12m0 0-4-4m4 4 4-4M5 19h14" stroke="white" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/>
+            </svg>
+            Get the Android App
+          </a>
+          <a class="btn secondary" href="https://drive.google.com/uc?export=download&id=1mBEIhBb5mvNZ4Gn7ZBRV-6IVx-y7mRKM" target="_blank" rel="noopener">Direct download</a>
+        </div>
+        <div style="margin-top:10px; color:#9fb0cc; font-size:13px">Payments secured by Razorpay • Free 30‑day trial available</div>
+      </div>
+      <div class="device" aria-label="App preview">
+        <div class="ring" aria-hidden="true"></div>
+      </div>
+    </div>
+  </main>
+
+  <!-- FEATURES -->
+  <section id="features" class="container section">
+    <h2>Why Fitness Copilot</h2>
+    <p class="subtitle">A complete training companion designed for results and simplicity.</p>
+    <div class="grid" style="margin-top:14px">
+      <div class="card">
+        <span class="badge">Personalized</span>
+        <h3>Plans that fit your life</h3>
+        <p>Tell us your goal, days per week, and equipment. Get realistic training you’ll actually follow.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Progression</span>
+        <h3>Smart, safe progress</h3>
+        <p>Built‑in progressions and deloads. Clear sets, reps, and rest — with options for RPE or %1RM.</p>
+      </div>
+      <div class="card">
+        <span class="badge">Nutrition</span>
+        <h3>Practical nutrition guidance</h3>
+        <p>Simple, habit‑based tips to support your training and recovery without overwhelm.</p>
+      </div>
+    </div>
+
+    <div class="featureList" style="margin-top:16px">
+      <div class="tile">
+        <strong>Offline-friendly logging</strong>
+        Log sets anywhere — sync when you’re back online.
+      </div>
+      <div class="tile">
+        <strong>Form and pro tips</strong>
+        Helpful cues and coaching notes for every exercise.
+      </div>
+      <div class="tile">
+        <strong>Auto-regulation</strong>
+        Adjust sessions based on time, soreness, or energy.
+      </div>
+      <div class="tile">
+        <strong>Secure payments</strong>
+        Razorpay checkout with multiple options.
+      </div>
+    </div>
+  </section>
+
+  <!-- PLANS -->
+  <section id="plans" class="container section">
+    <h2>Simple plans with a free trial</h2>
+    <p class="subtitle">Start free for 30 days. Upgrade anytime — we’ll extend your current end date.</p>
+    <div class="plans" style="margin-top:14px">
+      <div class="plan bronze">
+        <header>
+          <div class="tag">Monthly</div>
+          <div style="color:#CD7F32; font-weight:800">Bronze</div>
+        </header>
+        <div class="price">
+          $X.99 <span class="per">/ month</span>
+          <!-- Optional strike if you run promos:
+          <span class="strike">$Y.99</span> -->
+        </div>
+        <ul>
+          <li>Full access to all features</li>
+          <li>Adaptive training & logging</li>
+          <li>Cancel anytime</li>
+        </ul>
+        <div class="cta">
+          <a class="btn" href="https://drive.google.com/file/d/1mBEIhBb5mvNZ4Gn7ZBRV-6IVx-y7mRKM/view?usp=sharing" target="_blank" rel="noopener">Start now</a>
+        </div>
+      </div>
+
+      <div class="plan silver">
+        <header>
+          <div class="tag">6‑Month</div>
+          <div style="color:#C0C4CC; font-weight:800">Silver</div>
+        </header>
+        <div class="price">
+          $X.99 <span class="per">/ 6 months</span>
+        </div>
+        <ul>
+          <li>Great value for consistent training</li>
+          <li>All features + updates included</li>
+          <li>Extend on top of current plan</li>
+        </ul>
+        <div class="cta">
+          <a class="btn" href="https://drive.google.com/file/d/1mBEIhBb5mvNZ4Gn7ZBRV-6IVx-y7mRKM/view?usp=sharing" target="_blank" rel="noopener">Choose 6‑month</a>
+        </div>
+      </div>
+
+      <div class="plan gold">
+        <header>
+          <div class="tag">Yearly</div>
+          <div style="color:#F4D35E; font-weight:800">Gold</div>
+        </header>
+        <div class="price">
+          $X.99 <span class="per">/ year</span>
+        </div>
+        <ul>
+          <li>Best long‑term results & savings</li>
+          <li>Priority improvements & features</li>
+          <li>Extend on top of current plan</li>
+        </ul>
+        <div class="cta">
+          <a class="btn" href="https://drive.google.com/file/d/1mBEIhBb5mvNZ4Gn7ZBRV-6IVx-y7mRKM/view?usp=sharing" target="_blank" rel="noopener">Go Yearly</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section class="container section">
+    <h2>Built for real life</h2>
+    <p class="subtitle">Programs that respect your schedule, equipment, and recovery.</p>
+    <div class="quotes" style="margin-top:14px">
+      <div class="quote">Clear sessions, realistic progress, and great cues. I finally feel confident in the gym.</div>
+      <div class="quote">The workouts adapt to my week. When work is hectic, it still keeps me moving.</div>
+      <div class="quote">Simple to follow, powerful under the hood. Exactly what I needed.</div>
+    </div>
+  </section>
+
+  <!-- FAQ -->
+  <section id="faq" class="container section">
+    <h2>FAQ</h2>
+    <div class="grid" style="margin-top:14px">
+      <div class="card">
+        <h3>Is there a free trial?</h3>
+        <p>Yes — enjoy 30 days of full access. Upgrade anytime.</p>
+      </div>
+      <div class="card">
+        <h3>Do plans auto‑extend if I upgrade?</h3>
+        <p>Yes. If you upgrade mid‑plan, the new time is added to your current end date.</p>
+      </div>
+      <div class="card">
+        <h3>How are payments handled?</h3>
+        <p>Secure checkout via Razorpay. Major payment methods supported.</p>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <div>© <span id="year"></span> Fitness Copilot • <a href="#">Privacy</a> • <a href="#">Terms</a></div>
+  </footer>
+
+  <script>
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
